@@ -3,14 +3,14 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/210117/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Thu, 01 Jan 1970 00:00:00 UTC
+update_date: Sat, 11 Sep 2021 10:14:19 UTC
 stages:
 - id: 340
   step: 5482
-  is_completed: false
+  is_completed: true
 - id: 341
   step: 5483
-  is_completed: false
+  is_completed: true
 - id: 342
   step: 5484
   is_completed: false
@@ -169,20 +169,22 @@ topics:
     theory_id: 5984
   - title: Divide and conquer
     theory_id: 3544
+  - title: Decrease and conquer
+    theory_id: 14669
   - title: Call stack
     theory_id: 5135
   - title: Recursion
     theory_id: 3550
-  - title: Binary search
-    theory_id: 4955
-  - title: Binary search in Java
-    theory_id: 3545
+  - title: Stack
+    theory_id: 5252
   - title: Quick sort
     theory_id: 4965
   - title: Quicksort in Java
     theory_id: 3528
-  - title: Stack
-    theory_id: 5252
+  - title: Binary search
+    theory_id: 4955
+  - title: Binary search in Java
+    theory_id: 3545
   3:
   - title: Immutability
     theory_id: 7929
