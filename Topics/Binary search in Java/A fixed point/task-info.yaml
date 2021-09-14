@@ -1,0 +1,13 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: "public class Main {\n    public static void main(String[] args) {\n     \
+    \   // put your code here   \n    }\n}"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/3131#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sun, 12 Sep 2021 06:26:06 UTC
+record: -1

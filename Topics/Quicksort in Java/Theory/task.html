@@ -1,0 +1,51 @@
+<h2>Quicksort in Java</h2>
+<html>
+ <head></head>
+ <body>
+  <p><strong>Quicksort</strong> is an efficient in-place sorting algorithm that is often faster in practice comparing with other sorting algorithms. Its time complexity is <span class="math-tex">\(O(n \log n)\)</span> in the average case and <span class="math-tex">\(O(n^2)\)</span> in the worst case, but for real datasets, it often works like in the average.</p> 
+  <p>Quicksort<strong> </strong>can be implemented as a recursive or iterative algorithm. We will consider only the recursive version here.</p> 
+  <h2 style="text-align: center;">Implementation in Java</h2> 
+  <p>Below is a recursive version of quicksort implemented in Java:</p> 
+  <pre><code class="language-java">public static void quickSort(int[] array, int left, int right) {
+    if (left &lt; right) {
+        int pivotIndex = partition(array, left, right); // the pivot is already on its place
+        quickSort(array, left, pivotIndex - 1);  // sort the left subarray
+        quickSort(array, pivotIndex + 1, right); // sort the right subarray 
+    }
+}</code></pre> 
+  <p>The <code class="language-java">quickSort</code> method takes an array of ints and a range of indexes (<code class="language-java">left</code>, <code class="language-java">right</code>) to sort the array between them (inclusive).</p> 
+  <p>The <code class="language-java">partition</code> method reorders the array and returns the index of the pivot to divide the array into two parts. The method called <code class="language-java">swap</code> rearranges two elements in the array. Here is an implementation of these methods:</p> 
+  <pre><code class="language-java">private static int partition(int[] array, int left, int right) {
+    int pivot = array[right];  // choose the rightmost element as the pivot
+    int partitionIndex = left; // the first element greater than the pivot
+
+    /* move large values into the right side of the array */
+    for (int i = left; i &lt; right; i++) {
+        if (array[i] &lt;= pivot) { // may be used '&lt;' as well
+            swap(array, i, partitionIndex);
+            partitionIndex++;
+        }
+    }
+
+    swap(array, partitionIndex, right); // put the pivot on a suitable position
+
+    return partitionIndex;
+}
+
+private static void swap(int[] array, int i, int j) {
+    int temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}</code></pre> 
+  <p>This implementation of the <code class="language-java">partition</code> method is known as <strong>Lomuto partition scheme</strong>. It chooses the rightmost element as a pivot.</p> 
+  <h2>Examples</h2> 
+  <p>Here are some examples of how to use the implemented method:</p> 
+  <pre><code class="language-java">int[] array1 = { 17, 25, 11, 16, 10, 13, 22, 14 };
+quickSort(array1, 0, array1.length - 1); // { 10, 11, 13, 14, 16, 17, 22, 25 }
+        
+int[] array2 = { 19, 18, 17, 17, 16, 15 };
+quickSort(array2, 0, array2.length - 1); // { 15, 16, 17, 17, 18, 19 }</code></pre> 
+  <h2>Summary</h2> 
+  <p>In this topic, we have learned how a recursive version of quicksort can be implemented in Java. Although the implementation is simple, it is not the best solution if we are going to sort large arrays. In the worst cases, the depth of the recursion can be large and it will throw the<code class="language-java">StackOverflowError</code> exception. As an exercise, you may try to implement this algorithm using loops rather than recursion.</p>
+ </body>
+</html>

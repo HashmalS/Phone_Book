@@ -1,0 +1,89 @@
+<h2>Binary search in Java</h2>
+<html>
+ <head></head>
+ <body>
+  <p><strong>Binary search</strong> is a fast algorithm for finding the position of an element in a <strong>sorted array</strong>. For an array of size <span class="math-tex">\(n\)</span>, the running time of the algorithm is <span class="math-tex">\(O(\log n)\)</span> in the worst case.</p> 
+  <p>The algorithm begins by comparing the middle element of the array with a target value. If the target value matches the middle element, its position in the array is returned. If the target value is less than or greater than the middle element, the search continues in the left or right subarray, respectively, eliminating the other subarray from consideration. It repeats until the value is found or a new search interval is empty.</p> 
+  <p>In this lesson, we will learn how this algorithm can be implemented in Java. We will consider two implementations: iterative and recursive.</p> 
+  <h2 style="text-align: center;">Iterative implementation</h2> 
+  <p>Although the main idea of the binary search looks very simple, an implementation requires some caution with array indexes and conditions.</p> 
+  <p>The iterative implementation uses a loop for iterating over an array. If the considered interval is empty the loop stops and the method returns <code class="language-java">-1</code> that indicates the element is not found.</p> 
+  <pre><code class="language-java">public static int binarySearch(int[] array, int elem, int left, int right) {
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2; // the index of the middle element
+            
+        if (elem == array[mid]) {
+            return mid; // the element is found, return its index
+        } else if (elem &lt; array[mid]) {
+            right = mid - 1; // go to the left subarray
+        } else {
+            left = mid + 1;  // go to the right subarray
+        }
+    }
+    return -1; // the element is not found
+}</code></pre> 
+  <p>The method takes an array of <code class="language-java">int</code>s, a target element, and two boundaries of the subarray where we search the element. The last two parameters are not mandatory but they are useful if we also want to be able to search not in the entire array.</p> 
+  <h2>Usage examples</h2> 
+  <p>The code snippet below illustrates how the method can be used:</p> 
+  <pre><code class="language-java">int[] array = { 10, 13, 19, 20, 24, 26, 30, 34, 35 };
+        
+int from = 0, to = array.length - 1;
+        
+int indexOf10 = binarySearch(array, 10, from, to); // 0
+int indexOf19 = binarySearch(array, 19, from, to); // 2
+int indexOf26 = binarySearch(array, 26, from, to); // 5
+int indexOf34 = binarySearch(array, 34, from, to); // 7
+int indexOf35 = binarySearch(array, 35, from, to); // 8
+        
+int indexOf5 = binarySearch(array, 5, from, to);   // -1
+int indexOf16 = binarySearch(array, 16, from, to); // -1
+int indexOf40 = binarySearch(array, 40, from, to); // -1</code></pre> 
+  <p>If we call the method with other borders for the same array, the results will be different.</p> 
+  <pre><code class="language-java">int from = 0, to = 2;
+        
+int indexOf10 = binarySearch(array, 10, from, to); // 0
+int indexOf19 = binarySearch(array, 19, from, to); // 2
+int indexOf26 = binarySearch(array, 26, from, to); // -1
+int indexOf34 = binarySearch(array, 34, from, to); // -1
+int indexOf35 = binarySearch(array, 35, from, to); // -1</code></pre> 
+  <h2 style="text-align: center;">Recursive implementation</h2> 
+  <p>The recursive implementation makes a recursive call instead of using a loop. It doesn't throw the <code class="language-java">StackOverflowError</code> because it doesn't make a lot of recursive calls even for large arrays.</p> 
+  <pre><code class="language-java">public static int binarySearch(int[] array, int elem, int left, int right) {
+    if (left &gt; right) {
+        return -1; // search interval is empty, the element is not found
+    }
+        
+    int mid = left + (right - left) / 2; // the index of the middle element
+        
+    if (elem == array[mid]) {
+        return mid; // the element is found, return its index
+    } else if (elem &lt; array[mid]) {
+        return binarySearch(array, elem, left, mid - 1); // go to the left subarray
+    } else {
+        return binarySearch(array, elem, mid + 1, right); // go to the right subarray    
+    }
+}</code></pre> 
+  <p>Try using this method yourself and make sure that it returns the same results as the previous one.</p> 
+  <h2 style="text-align: center;">Calculating the index of a middle element</h2> 
+  <p>There are different ways to calculate the index of a middle element:</p> 
+  <ul> 
+   <li>The simplest one is sum both borders and divides them by two:</li> 
+  </ul> 
+  <pre><code class="language-java">int mid = (left + right) / 2;</code></pre> 
+  <p>But this simple formula has one disadvantage: It fails for large values of <code class="language-java">left</code> and <code class="language-java">right</code> when the sum is greater than the maximum positive int value. The sum overflows to a negative value, and the index will be negative when divided by two.</p> 
+  <ul> 
+   <li>The longer formula protects us from the int overflow. We used it in our binary search implementations.</li> 
+  </ul> 
+  <pre><code class="language-java">int mid = left + (right - left) / 2;</code></pre> 
+  <p>Actually, it's the same as the previous formula but protects us from the int overflow.</p> 
+  <pre><code class="language-java">left + (right - left) / 2 = (2 * left + right - left) / 2 = (left + right) / 2</code></pre> 
+  <ul> 
+   <li>Using a bitshift operator:</li> 
+  </ul> 
+  <pre><code class="language-java">int mid = (left + right) &gt;&gt;&gt; 1;</code></pre> 
+  <p>When we sum <code class="language-java">left</code> and <code class="language-java">right</code> we may get a negative value because of the type overflow, but the unsigned right shift operator processes the value correctly. Also, it may be faster than division.</p> 
+  <h2>Summary</h2> 
+  <p>In this topic, we have learned how binary search can be implemented in Java. We have covered two versions: iterative and recursive. Also, we have discussed different ways to calculate the index of a middle element during the search.</p> 
+  <p>Note that iterative and recursive implementations are equivalent. Use any of them for educational purposes. But remember, the binary search is implemented in the Java standard library, see <code class="language-java">java.util.Arrays.binarySearch(...)</code> for details. It works for different data types including integer numbers, characters, strings, and so on.</p>
+ </body>
+</html>

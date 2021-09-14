@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/210117/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Sat, 11 Sep 2021 10:14:19 UTC
+update_date: Tue, 14 Sep 2021 18:37:41 UTC
 stages:
 - id: 340
   step: 5482
@@ -13,7 +13,7 @@ stages:
   is_completed: true
 - id: 342
   step: 5484
-  is_completed: false
+  is_completed: true
 - id: 475
   step: 7721
   is_completed: false
@@ -111,6 +111,8 @@ topics:
     theory_id: 9746
   - title: Errors in programs
     theory_id: 3536
+  - title: Package
+    theory_id: 3621
   - title: What is an exception
     theory_id: 3497
   - title: Hierarchy of exceptions
@@ -137,16 +139,14 @@ topics:
     theory_id: 3535
   - title: Instance methods
     theory_id: 3495
-  - title: Package
-    theory_id: 3621
+  - title: Objects
+    theory_id: 4727
   - title: Access modifiers
     theory_id: 3589
   - title: Getters and setters
     theory_id: 3599
   - title: Inheritance
     theory_id: 3583
-  - title: Objects
-    theory_id: 4727
   1:
   - title: Floating-point types
     theory_id: 3517
@@ -204,15 +204,15 @@ topics:
     theory_id: 3606
   - title: Hash table in Java
     theory_id: 6945
+  - title: Interface
+    theory_id: 3615
+  - title: Comparable
+    theory_id: 14456
   - title: Protected modifier
     theory_id: 6692
   - title: Referencing subclass objects
     theory_id: 3585
   - title: The Object class
     theory_id: 3596
-  - title: Interface
-    theory_id: 3615
-  - title: Comparable
-    theory_id: 14456
   - title: Boxing and unboxing
     theory_id: 3595

@@ -14,6 +14,12 @@ public class Main {
         List<String> necessaryPeople =
                 parseNecessaryPeople("D:\\Stuff\\Programming\\misc\\hyperskill_phonebook\\find.txt");
 
+        List<Person> phoneBookEntriesForBubbleSort = new ArrayList<>(phoneBookEntries);
+        List<Person> phoneBookEntriesForQuickSort = new ArrayList<>(phoneBookEntries);
+
+        /**
+         Linear search without sorting.
+         **/
         System.out.println("Start searching (linear search)...");
         long startTime = System.currentTimeMillis();
         findPeople(phoneBookEntries, necessaryPeople);
@@ -27,17 +33,21 @@ public class Main {
         totalLinearSearchTime /= 60;
         long minutes = totalLinearSearchTime % 60;
 
-        System.out.printf("Time taken: %d min. %d sec. %d ms.\n",
+        System.out.printf("Time taken: %d min. %d sec. %d ms.\n\n",
                 minutes, seconds, milliseconds);
+
+        /**
+         *Bubble sort and then Jump search if sorting is fast enough.
+         **/
         System.out.println("Start searching (bubble sort + jump search)...");
         startTime = System.currentTimeMillis();
-        boolean sorted = bubbleSort(phoneBookEntries, timeLimit);
+        boolean sorted = bubbleSort(phoneBookEntriesForBubbleSort, timeLimit);
         long totalBubbleSortTime = System.currentTimeMillis() - startTime;
         if (sorted) {
             int entriesFound = 0;
             long searchStartTime = System.currentTimeMillis();
             for (String target : necessaryPeople) {
-                int index = jumpSearch(phoneBookEntries, target);
+                int index = jumpSearch(phoneBookEntriesForBubbleSort, target);
                 if (index > -1) {
                     entriesFound++;
                 }
@@ -68,7 +78,7 @@ public class Main {
             minutes = totalJumpSearchTime % 60;
         } else {
             long linearSearchStartTime = System.currentTimeMillis();
-            findPeople(phoneBookEntries, necessaryPeople);
+            findPeople(phoneBookEntriesForBubbleSort, necessaryPeople);
             totalLinearSearchTime = System.currentTimeMillis() - linearSearchStartTime;
             long totalSearchTime = System.currentTimeMillis() - startTime;
 
@@ -94,7 +104,49 @@ public class Main {
             minutes = totalLinearSearchTime % 60;
 
         }
-        System.out.printf("Searching time: %d min. %d sec. %d ms.\n",
+        System.out.printf("Searching time: %d min. %d sec. %d ms.\n\n",
+                minutes, seconds, milliseconds);
+
+        /**
+         *Quick sort and then binary search
+         **/
+        System.out.println("Start searching (quick sort + binary search)...");
+        startTime = System.currentTimeMillis();
+        quickSort(phoneBookEntriesForQuickSort, 0, phoneBookEntries.size() - 1);
+        long totalQuickSortTime = System.currentTimeMillis() - startTime;
+        int entriesFound = 0;
+        long searchStartTime = System.currentTimeMillis();
+        for (String target : necessaryPeople) {
+            int index = binarySearch(phoneBookEntriesForQuickSort, target, 0, phoneBookEntries.size() - 1);
+            if (index > -1) {
+                entriesFound++;
+            }
+        }
+        long totalBinarySearchTime = System.currentTimeMillis() - searchStartTime;
+        long totalSearchTime = System.currentTimeMillis() - startTime;
+        milliseconds = totalSearchTime % 1000;
+        totalSearchTime /= 1000;
+        seconds = totalSearchTime % 60;
+        totalSearchTime /= 60;
+        minutes = totalSearchTime % 60;
+        System.out.printf("Found %d/%d entries. ",
+                entriesFound, necessaryPeople.size());
+        System.out.printf("Time taken: %d min. %d sec. %d ms.\n",
+                minutes, seconds, milliseconds);
+        milliseconds = totalQuickSortTime % 1000;
+        totalQuickSortTime /= 1000;
+        seconds = totalQuickSortTime % 60;
+        totalQuickSortTime /= 60;
+        minutes = totalQuickSortTime % 60;
+        System.out.printf("Sorting time: %d min. %d sec. %d ms.\n",
+                minutes, seconds, milliseconds);
+
+        milliseconds = totalQuickSortTime % 1000;
+        totalBinarySearchTime /= 1000;
+        seconds = totalBinarySearchTime % 60;
+        totalBinarySearchTime /= 60;
+        minutes = totalBinarySearchTime % 60;
+        System.out.printf("Searching time: %d min. %d sec. %d ms.\n\n",
                 minutes, seconds, milliseconds);
     }
 
@@ -199,5 +251,51 @@ public class Main {
         }
 
         return true;
+    }
+
+    public static void quickSort(List<Person> personList, int left, int right) {
+        if (left < right) {
+            int pivotIndex = partition(personList, left, right);
+            quickSort(personList, left, pivotIndex - 1);
+            quickSort(personList, pivotIndex + 1, right);
+        }
+    }
+
+    private static int partition(List<Person> personList, int left, int right) {
+        String pivot = personList.get(right).getName();
+        int partitionIndex = left;
+
+        for (int i = left; i < right; i++) {
+            if (personList.get(i).getName().compareTo(pivot) < 0) {
+                swap(personList, i, partitionIndex);
+                partitionIndex++;
+            }
+        }
+
+        swap(personList, partitionIndex, right); // put the pivot on a suitable position
+
+        return partitionIndex;
+    }
+
+    private static void swap(List<Person> personList, int i, int j) {
+        Person temp = personList.get(i);
+        personList.set(i, personList.get(j));
+        personList.set(j, temp);
+    }
+
+    public static int binarySearch(List<Person> personList, String name, int left, int right) {
+        if (left > right) {
+            return -1;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        if (name.equals(personList.get(mid).getName())) {
+            return mid;
+        } else if (personList.get(mid).getName().compareTo(name) > 0) {
+            return binarySearch(personList, name, left, mid - 1);
+        } else {
+            return binarySearch(personList, name, mid + 1, right);
+        }
     }
 }

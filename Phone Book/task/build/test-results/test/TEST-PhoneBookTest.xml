@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="PhoneBookTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-09-11T12:51:49" hostname="DESKTOP-QHOQ9DU" time="48.127">
+<testsuite name="PhoneBookTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-09-14T19:02:57" hostname="DESKTOP-QHOQ9DU" time="51.565">
   <properties/>
-  <testcase name="start" classname="PhoneBookTest" time="48.127"/>
+  <testcase name="start" classname="PhoneBookTest" time="51.565"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 Start searching (linear search)...
-Found 500/500 entries. Time taken: 0 min. 3 sec. 927 ms.
+Found 500/500 entries. Time taken: 0 min. 4 sec. 112 ms.
+
 Start searching (bubble sort + jump search)...
-Found 500/500 entries. Time taken: 0 min. 42 sec. 987 ms.
-Sorting time: 0 min. 39 sec. 271 ms. - STOPPED, moved to linear search
-Searching time: 0 min. 3 sec. 716 ms.
+Found 500/500 entries. Time taken: 0 min. 45 sec. 410 ms.
+Sorting time: 0 min. 41 sec. 121 ms. - STOPPED, moved to linear search
+Searching time: 0 min. 4 sec. 289 ms.
+
+Start searching (quick sort + binary search)...
+Found 500/500 entries. Time taken: 0 min. 0 sec. 959 ms.
+Sorting time: 0 min. 0 sec. 958 ms.
+Searching time: 0 min. 0 sec. 0 ms.
+
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
