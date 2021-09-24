@@ -1,0 +1,139 @@
+<h2>Hash table in Java</h2>
+<html>
+ <head></head>
+ <body>
+  <p>A <strong>hash table</strong> is a structure that allows us to efficiently perform<em> insert</em>, <em>find</em>, and <em>remove</em> operations with data. In Java, this structure is represented by the <code class="language-java">Hashtable&lt;K, V&gt;</code> class from the standard collections. In this topic, we will implement our own simplified version of a hash table to get a general idea of how it works under the hood.</p> 
+  <ul> 
+  </ul> 
+  <h2 style="text-align: center;">The structure of a hash table in Java</h2> 
+  <p>For simplicity, we will implement a hash table with the following properties:</p> 
+  <ul> 
+   <li>keys are integers, values might be of arbitrary type;</li> 
+   <li>the maximum size of a table is fixed;</li> 
+   <li>the<strong> </strong><em>linear probing</em> technique is used to resolve collisions.</li> 
+  </ul> 
+  <p>First, let's implement a class for storing table entries:</p> 
+  <pre><code class="language-java">class TableEntry&lt;T&gt; {
+    private final int key;
+    private final T value;
+
+    public TableEntry(int key, T value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public T getValue() {
+        return value;
+    }
+}</code></pre> 
+  <p>The <code class="language-java">TableEntry&lt;T&gt;</code> is a generic class with two private fields. The first is an integer <code class="language-java">key</code>, the other is a <code class="language-java">value</code> of a generic type <code class="language-java">T</code>. Also, the class has a constructor and getters for the fields.</p> 
+  <p>Now, let's start implementing a hash table itself. It will be a public class with one generic parameter:</p> 
+  <pre><code class="language-java">public class HashTable&lt;T&gt;</code></pre> 
+  <p>The class will contain two private fields:</p> 
+  <pre><code class="language-java">private final int size;
+private TableEntry[] table;</code></pre> 
+  <p>Since we assume that the size of a table is fixed, the corresponding field is specified as final.</p> 
+  <p>A constructor of the class looks like this:</p> 
+  <pre><code class="language-java">public HashTable(int size) {
+    this.size = size;
+    table = new TableEntry[size];
+}</code></pre> 
+  <p>It takes one parameter that stores the size of a table. The corresponding field of the class is initialized by that size and then a new array of the same size is allocated and assigned to the <code class="language-java">table</code> field.</p> 
+  <h2 style="text-align: center;">Basic methods</h2> 
+  <p>The first method to implement is <code class="language-java">findEntryIndex</code>. This is a private helper method that finds the index of entry with a specified key in a table. It will be used as a subroutine in other methods. Its implementation is the following:</p> 
+  <pre><code class="language-java">private int findEntryIndex(int key) {
+    int hash = key % size;
+
+    while (!(table[hash] == null || table[hash].getKey() == key)) {
+        hash = (hash + 1) % size;
+
+        if (hash == key % size) {
+            return -1;
+        }
+    }
+
+    return hash;
+}</code></pre> 
+  <p>The method uses the modulo division hash function and the <em>linear probing </em>technique to resolve collisions. It stops the searching either if the current entry is <em>null </em>or the specified key is found. Then, it returns a hash value that corresponds to the index of the found entry. If the table is full, the method returns -1.</p> 
+  <p>Next, let's implement a <code class="language-java">put</code> method, that inserts a new entry to a hash table:</p> 
+  <pre><code class="language-java">public boolean put(int key, T value) {
+    int idx = findEntryIndex(key);
+
+    if (idx == -1) {
+        return false;
+    }
+
+    table[idx] = new TableEntry(key, value);
+    return true;
+}</code></pre> 
+  <p>First, the method finds a place to insert a new entry using the <code class="language-java">findEntryIndex</code> method. Then, if such a place is found, it puts a new entry to the table and returns <em>true</em>. Otherwise, the method returns <em>false</em> indicating that the insertion is failed.</p> 
+  <p>A <code class="language-java">get</code> method finds and returns an entry with a specified key. It can be implemented as follows:</p> 
+  <pre><code class="language-java">public T get(int key) {
+    int idx = findEntryIndex(key);
+
+    if (idx == -1 || table[idx] == null) {
+        return null;
+    }
+
+    return (T) table[idx].getValue();
+}</code></pre> 
+  <p>If the searching is successful, the method returns the value associated with the key. Otherwise, it returns<em> </em><code class="language-java">null</code>.</p> 
+  <h2 style="text-align: center;">Overriding toString</h2> 
+  <p>To conveniently print the content of a hash table, we will also override the <code class="language-java">toString</code> method:</p> 
+  <pre><code class="language-java">@Override
+public String toString() {
+    StringBuilder tableStringBuilder = new StringBuilder();
+
+    for (int i = 0; i &lt; table.length; i++) {
+        if (table[i] == null) {
+            tableStringBuilder.append(i + ": null");
+        } else {
+            tableStringBuilder.append(i + ": key=" + table[i].getKey()
+                                        + ", value=" + table[i].getValue());
+        }
+
+        if (i &lt; table.length - 1) {
+            tableStringBuilder.append("\n");
+        }
+    }
+
+    return tableStringBuilder.toString();
+}</code></pre> 
+  <h2 style="text-align: center;">Example</h2> 
+  <p>Let's consider an example of how the described hash table can be used:</p> 
+  <pre><code class="language-java">HashTable&lt;String&gt; table = new HashTable(5);
+
+table.put(21, "John");
+table.put(33, "Tom");
+table.put(42, "Alice");
+table.put(10, "Mike");
+table.put(54, "Kate");
+
+System.out.println(table);</code></pre> 
+  <p>Here, we create a table of size 5 and put 5 entries to the table. After that, the content of the table looks like this:</p> 
+  <pre><code class="language-no-highlight">0: key=10, value=Mike
+1: key=21, value=John
+2: key=42, value=Alice
+3: key=33, value=Tom
+4: key=54, value=Kate</code></pre> 
+  <p>Now, let's try to get some value from the table:</p> 
+  <pre><code class="language-java">String name = table.get(42);
+System.out.println(name); // Alice</code></pre> 
+  <p>Then, let's update some value that is already in the table: </p> 
+  <pre><code class="language-java">if (table.put(21, "Ann")) {
+    System.out.println(table);
+}</code></pre> 
+  <p>This gives the following:</p> 
+  <pre><code class="language-no-highlight">0: key=10, value=Mike
+1: key=21, value=Ann // updated value
+2: key=42, value=Alice
+3: key=33, value=Tom
+4: key=54, value=Kate</code></pre> 
+  <h2 style="text-align: center;">Summary </h2> 
+  <p>In this topic, we have considered one possible implementation of a hash table in Java. Keep it in mind that our example is simplified. Real hash tables are implemented using not only a generic value but a generic key as well. Also, real implementations use more sophisticated and efficient approaches to resolve collisions. However, the provided example is enough to get a general idea of how hash tables work.</p>
+ </body>
+</html>

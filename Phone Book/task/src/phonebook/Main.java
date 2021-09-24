@@ -3,6 +3,7 @@ package phonebook;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
@@ -146,6 +147,54 @@ public class Main {
         seconds = totalBinarySearchTime % 60;
         totalBinarySearchTime /= 60;
         minutes = totalBinarySearchTime % 60;
+        System.out.printf("Searching time: %d min. %d sec. %d ms.\n\n",
+                minutes, seconds, milliseconds);
+
+        /**
+         * Hash table
+         */
+        System.out.println("Start searching (hash table)...");
+        Hashtable<String, Integer> phoneBookTable = new Hashtable<>();
+        startTime = System.currentTimeMillis();
+        for (Person entry :
+                phoneBookEntries) {
+            phoneBookTable.put(entry.getName(), entry.getNumber());
+        }
+        long tableCreationTime = System.currentTimeMillis() - startTime;
+        entriesFound = 0;
+        long hashSearchStartTime = System.currentTimeMillis();
+        for (String person :
+                necessaryPeople) {
+            if (phoneBookTable.containsKey(person)) {
+                entriesFound++;
+            } else {
+                System.out.println(person);
+            }
+        }
+        long totalHashSearchTime = System.currentTimeMillis() - hashSearchStartTime;
+        long totalInstantSearchTime = System.currentTimeMillis() - startTime;
+        milliseconds = totalInstantSearchTime % 1000;
+        totalInstantSearchTime /= 1000;
+        seconds = totalInstantSearchTime % 60;
+        totalInstantSearchTime /= 60;
+        minutes = totalInstantSearchTime % 60;
+        System.out.printf("Found %d/%d entries. ",
+                entriesFound, necessaryPeople.size());
+        System.out.printf("Time taken: %d min. %d sec. %d ms.\n",
+                minutes, seconds, milliseconds);
+        milliseconds = tableCreationTime % 1000;
+        tableCreationTime /= 1000;
+        seconds = tableCreationTime % 60;
+        tableCreationTime /= 60;
+        minutes = tableCreationTime % 60;
+        System.out.printf("Creating time: %d min. %d sec. %d ms.\n",
+                minutes, seconds, milliseconds);
+
+        milliseconds = totalHashSearchTime % 1000;
+        totalHashSearchTime /= 1000;
+        seconds = totalHashSearchTime % 60;
+        totalHashSearchTime /= 60;
+        minutes = totalHashSearchTime % 60;
         System.out.printf("Searching time: %d min. %d sec. %d ms.\n\n",
                 minutes, seconds, milliseconds);
     }

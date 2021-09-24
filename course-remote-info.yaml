@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/210117/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Tue, 14 Sep 2021 18:37:41 UTC
+update_date: Fri, 24 Sep 2021 18:51:14 UTC
 stages:
 - id: 340
   step: 5482
@@ -16,7 +16,7 @@ stages:
   is_completed: true
 - id: 475
   step: 7721
-  is_completed: false
+  is_completed: true
 topics:
   0:
   - title: Write, compile, and run
@@ -127,10 +127,12 @@ topics:
     theory_id: 3636
   - title: Writing files
     theory_id: 3652
-  - title: Algorithms in Java
-    theory_id: 3540
+  - title: Searching problem
+    theory_id: 15894
   - title: Linear search
     theory_id: 4970
+  - title: Algorithms in Java
+    theory_id: 3540
   - title: Linear search in Java
     theory_id: 3541
   - title: Defining classes
